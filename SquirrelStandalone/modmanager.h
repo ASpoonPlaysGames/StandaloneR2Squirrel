@@ -147,6 +147,7 @@ public:
     // compile asset type stuff, these are done in files under runtime/compiled/
     std::string BuildScriptsRson();
 
+    bool m_IsVanilla = false;
 };
 
 fs::path GetModFolderPath();

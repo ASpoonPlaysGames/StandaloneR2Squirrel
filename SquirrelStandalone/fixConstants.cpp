@@ -13,9 +13,12 @@ AUTOHOOK(CSquirrelVM__InitConstants, server.dll + 0x2a4830, __int64, __fastcall,
     HSquirrelVM* sqvm = vm->sqvm;
     g_pSquirrel<ScriptContext::SERVER>->getConstants(sqvm);
 
-    g_pSquirrel<ScriptContext::SERVER>->pushstring(sqvm, "VANILLA");
-    g_pSquirrel<ScriptContext::SERVER>->pushinteger(sqvm, g_pModManager->m_IsVanilla);
-    g_pSquirrel<ScriptContext::SERVER>->newslot(sqvm, -3, 0);
+    for (auto& def : g_pModManager->m_ConstDefs)
+    {
+        g_pSquirrel<ScriptContext::SERVER>->pushstring(sqvm, def.name.c_str());
+        g_pSquirrel<ScriptContext::SERVER>->pushinteger(sqvm, def.value);
+        g_pSquirrel<ScriptContext::SERVER>->newslot(sqvm, -3, 0);
+    }
 
     g_pSquirrel<ScriptContext::SERVER>->pushstring(sqvm, "SF_INFOTARGET_TRANSMIT_TO_CLIENT");
     g_pSquirrel<ScriptContext::SERVER>->pushinteger(sqvm, 1);
@@ -3893,9 +3896,12 @@ AUTOHOOK(CSquirrelVM__InitConstantsUI, client.dll + 0x399300, __int64, __fastcal
     HSquirrelVM* sqvm = vm->sqvm;
     g_pSquirrel<ScriptContext::UI>->getConstants(sqvm);
 
-    g_pSquirrel<ScriptContext::UI>->pushstring(sqvm, "VANILLA");
-    g_pSquirrel<ScriptContext::UI>->pushinteger(sqvm, g_pModManager->m_IsVanilla);
-    g_pSquirrel<ScriptContext::UI>->newslot(sqvm, -3, 0);
+    for (auto& def : g_pModManager->m_ConstDefs)
+    {
+        g_pSquirrel<ScriptContext::UI>->pushstring(sqvm, def.name.c_str());
+        g_pSquirrel<ScriptContext::UI>->pushinteger(sqvm, def.value);
+        g_pSquirrel<ScriptContext::UI>->newslot(sqvm, -3, 0);
+    }
 
     g_pSquirrel<ScriptContext::UI>->pushstring(sqvm, "ENTITY_VISIBLE_TO_OWNER");
     g_pSquirrel<ScriptContext::UI>->pushinteger(sqvm, 1);
@@ -4846,9 +4852,12 @@ AUTOHOOK(CSquirrelVM__InitConstantsClient, client.dll + 0x31AE00, __int64, __fas
     HSquirrelVM* sqvm = vm->sqvm;
     g_pSquirrel<ScriptContext::CLIENT>->getConstants(sqvm);
 
-    g_pSquirrel<ScriptContext::CLIENT>->pushstring(sqvm, "VANILLA");
-    g_pSquirrel<ScriptContext::CLIENT>->pushinteger(sqvm, g_pModManager->m_IsVanilla);
-    g_pSquirrel<ScriptContext::CLIENT>->newslot(sqvm, -3, 0);
+    for (auto& def : g_pModManager->m_ConstDefs)
+    {
+        g_pSquirrel<ScriptContext::CLIENT>->pushstring(sqvm, def.name.c_str());
+        g_pSquirrel<ScriptContext::CLIENT>->pushinteger(sqvm, def.value);
+        g_pSquirrel<ScriptContext::CLIENT>->newslot(sqvm, -3, 0);
+    }
 
     g_pSquirrel<ScriptContext::CLIENT>->pushstring(sqvm, "ENTITY_VISIBLE_TO_OWNER");
     g_pSquirrel<ScriptContext::CLIENT>->pushinteger(sqvm, 1);

@@ -147,7 +147,12 @@ public:
     // compile asset type stuff, these are done in files under runtime/compiled/
     std::string BuildScriptsRson();
 
-    bool m_IsVanilla = false;
+    struct SquirrelConstDefinition
+    {
+        std::string name;
+        int value;
+    };
+    std::vector<SquirrelConstDefinition> m_ConstDefs;
 };
 
 fs::path GetModFolderPath();

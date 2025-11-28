@@ -207,7 +207,6 @@ int main(int argc, char** argv)
 
    }
 
-
    if (nativeJson.HasMember("UI") && nativeJson["UI"].IsArray())
    {
       for (auto& func : nativeJson["UI"].GetArray())
@@ -244,6 +243,39 @@ int main(int argc, char** argv)
 
    }
 
+   if (nativeJson.HasMember("CONSTS") && nativeJson["CONSTS"].IsArray())
+   {
+       g_pModManager->m_ConstDefs.reserve(nativeJson["CONSTS"].GetArray().Size());
+
+       for (auto& sqConst : nativeJson["CONSTS"].GetArray())
+       {
+           std::string name;
+           int value;
+
+           if (sqConst.HasMember("name") && sqConst["name"].IsString())
+           {
+               name = sqConst["name"].GetString();
+           }
+           else
+           {
+               spdlog::warn("Constant does not have a name");
+               continue;
+           }
+
+           if (sqConst.HasMember("value") && sqConst["value"].IsInt())
+           {
+               value = sqConst["name"].GetInt();
+           }
+           else
+           {
+               spdlog::warn("Constant does not have a value or the value is not an integer. Only integer constants are currently supported");
+               continue;
+           }
+
+           g_pModManager->m_ConstDefs.emplace_back(name, value);
+       }
+   }
+
    std::vector<const char*> otherArgs;
    int argn = 2;
    while (argc > ++argn)
@@ -251,19 +283,10 @@ int main(int argc, char** argv)
       otherArgs.push_back(argv[argn]);
    }
 
-   g_pModManager->m_IsVanilla = std::find_if(otherArgs.begin(), otherArgs.end(), [](const char* arg) { return !strcmp(arg, "VANILLA"); }) != otherArgs.end();
-
-
-
    g_pSquirrel<ScriptContext::SERVER>->compileTest();
    g_pSquirrel<ScriptContext::UI>->compileTest();
    g_pSquirrel<ScriptContext::CLIENT>->compileTest();
    spdlog::info("Compiled Successfully");
-
-
-
-
-
 
    return 0;
 }

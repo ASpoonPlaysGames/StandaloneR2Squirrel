@@ -249,6 +249,12 @@ int main(int argc, char** argv)
 
        for (auto& sqConst : nativeJson["CONSTS"].GetArray())
        {
+           if (!sqConst.IsObject())
+           {
+               spdlog::warn("Constant is not a json object");
+               continue;
+           }
+
            std::string name;
            int value;
 
@@ -264,7 +270,7 @@ int main(int argc, char** argv)
 
            if (sqConst.HasMember("value") && sqConst["value"].IsInt())
            {
-               value = sqConst["name"].GetInt();
+               value = sqConst["value"].GetInt();
            }
            else
            {

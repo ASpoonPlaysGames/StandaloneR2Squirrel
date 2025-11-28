@@ -248,7 +248,7 @@ public:
 		return __sq_call(sqvm, args + 1, false, false);
 	}
 
-	inline SQInteger raiseerror(HSquirrelVM* sqvm, const const SQChar* sError)
+	inline SQInteger raiseerror(HSquirrelVM* sqvm, const SQChar* sError)
 	{
 		return __sq_raiseerror(sqvm, sError);
 	}
